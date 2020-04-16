@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Course from './components/Course';
+import Form from './Form';
+
 
 class App extends Component {
 
@@ -10,17 +12,28 @@ class App extends Component {
       this.state = {
         courses: [
           {
+            id:1,
             name: 'React',
             category: 'JavaScript',
-            image: 'src/img/React-icon.svg.png'
+            image: 'https://raw.githubusercontent.com/dressalsl/react-treinaWeb/master/src/img/React-icon.svg.png'
           },
           {
+            id:2,
             name: 'Angular',
             category: 'JavaScript',
-            image: 'src/img/angular.png'
+            image: 'https://raw.githubusercontent.com/dressalsl/react-treinaWeb/master/src/img/angular.png'
           }
         ]
       }
+      this.remove = this.remove.bind(this);
+  }
+
+  remove(courseId){
+    const { courses } = this.state,
+      courseIndex = courses.findIndex(course => course.id == courseId);
+
+    courses.splice(courseIndex, 1);
+    this.setState({courses})
   }
 
   render() {
@@ -32,10 +45,12 @@ class App extends Component {
               state.courses.map(
                 course => <Course 
                 course={course}
+                onRemove={this.remove}
                 />
                 )
             }
         </ul>
+        <Form />
       </div>
       );
   }
