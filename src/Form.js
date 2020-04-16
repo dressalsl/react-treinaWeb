@@ -6,15 +6,28 @@ class Form extends Component{
         super(props);
 
         this.state = {
-            name: ''
+            name: '',
+            fruit: 'orange',
+            message: ''
         }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.fruits = [
+            {'name': 'Apple', 'value':'apple'},
+            {'name': 'Banana', 'value':'banana'},
+            {'name': 'Orange', 'value':'orange'}
+        ];
 
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event){
+        const target = event.target,
+            value = target.type ==='checkbox' ? target.checked : target.value,
+            name = target.name;
+            
         this.setState({
-            name: event.target.value
+            [name]: value
         })
     }
 
@@ -23,10 +36,26 @@ class Form extends Component{
 
         return (
             <form>
-                <label>
-                    Name:
-                    <input type='text'name='name' value={state.name} onChange={this.handleChange}/> {state.name}
-                </label>
+                <div>
+                    <label>
+                        Name:
+                        <input type='text'name='name' value={state.name} onChange={this.handleChange}/> {state.name}
+                    </label>
+                </div>
+                    <label>
+                        Fruit:
+                        <select value={state.fruit} name="fruit" onChange={this.handleChange}>
+                            {
+                                this.fruits.map(fruit => <option value="{fruit.value}">{fruit.name}</option>)
+                            }
+                        </select>
+                    </label>
+                <div>
+                    <label>
+                        Menssage:
+                        <textarea value={state.message} name='message' onChange={this.handleChange}/>
+                    </label>
+                </div>
                 <input type="submit" value='Enviar'/>
             </form>
         )
